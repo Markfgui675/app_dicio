@@ -9,19 +9,18 @@ class Controller = ControllerBase with _$Controller;
 abstract class ControllerBase with Store {
 
   @observable
-  ObservableList Json = [].asObservable();
+  List<dynamic> Json = [];
 
   @action
   Future<List<dynamic>> pesquisar(String value) async {
 
-    String palavra = value;
+    Json.clear();
 
+    String palavra = value;
     var url = Uri.parse(
         'https://dicio-api-ten.vercel.app/v2/$palavra'
     );
-
     var response = await http.get(url);
-
     print(response.statusCode);
 
     if(response.statusCode == 200){
@@ -34,12 +33,16 @@ abstract class ControllerBase with Store {
 
   }
 
+  @computed
+  List<dynamic> get resultado{
+    return Json;
+  }
+
   @observable
   String palavra = '';
   @action
   setPalavra(String value){
     palavra = value;
-    pesquisar(palavra);
   }
 
 }

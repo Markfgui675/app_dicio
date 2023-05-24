@@ -9,16 +9,24 @@ part of 'mobx.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$Controller on ControllerBase, Store {
+  Computed<List<dynamic>>? _$resultadoComputed;
+
+  @override
+  List<dynamic> get resultado =>
+      (_$resultadoComputed ??= Computed<List<dynamic>>(() => super.resultado,
+              name: 'ControllerBase.resultado'))
+          .value;
+
   late final _$JsonAtom = Atom(name: 'ControllerBase.Json', context: context);
 
   @override
-  ObservableList<dynamic> get Json {
+  List<dynamic> get Json {
     _$JsonAtom.reportRead();
     return super.Json;
   }
 
   @override
-  set Json(ObservableList<dynamic> value) {
+  set Json(List<dynamic> value) {
     _$JsonAtom.reportWrite(value, super.Json, () {
       super.Json = value;
     });
@@ -66,7 +74,8 @@ mixin _$Controller on ControllerBase, Store {
   String toString() {
     return '''
 Json: ${Json},
-palavra: ${palavra}
+palavra: ${palavra},
+resultado: ${resultado}
     ''';
   }
 }
