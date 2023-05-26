@@ -36,6 +36,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      extendBody: true,
       backgroundColor: corAmarelo,
       appBar: AppBar(
         title: TextoPadrao(
@@ -48,8 +49,11 @@ class _HomeState extends State<Home> {
         backgroundColor: corPreto,
       ),
 
-      body: Container(
-        child: telas[_page],
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.only(bottom: 70),
+          child: telas[_page],
+        ),
       ),
 
       bottomNavigationBar: CurvedNavigationBar(

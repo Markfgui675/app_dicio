@@ -23,13 +23,18 @@ abstract class ControllerBase with Store {
   @observable
   List<dynamic> etymology = [].asObservable();
 
-  @action
-  Widget
+  @observable
+  int statusCode = 0;
+
+  @observable
+  bool loading = false;
 
   @action
   Future<List<dynamic>> pesquisar(String value) async {
 
     Json.clear();
+
+    loading = true;
 
     String palavra = value;
     var url = Uri.parse(
@@ -39,10 +44,12 @@ abstract class ControllerBase with Store {
     print(response.statusCode);
 
     if(response.statusCode != 200){
-      semResultado();
+      statusCode = response.statusCode;
+      loading = false;
     }
 
     if(response.statusCode == 200){
+      statusCode = 200;
       print(json.decode(response.body));
       Json = json.decode(response.body);
 
@@ -67,11 +74,22 @@ abstract class ControllerBase with Store {
 
       print(meanings.toString());
 
+      loading = false;
+
       return Json;
     } else {
       throw Exception('Erro ao carregar dados do servidor');
     }
+  }
 
+  @computed
+  int get StatusCode{
+    return statusCode;
+  }
+
+  @computed
+  bool get loadingg{
+    return loading;
   }
 
   @computed
