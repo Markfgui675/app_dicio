@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:app_dicio/View/Frases.dart';
+import 'package:app_dicio/View/Pesquisa.dart';
+import 'package:app_dicio/View/Sinonimos.dart';
 import 'package:app_dicio/View/design/design.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
@@ -23,6 +26,12 @@ class _HomeState extends State<Home> {
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   int _page = 0;
 
+  List<Widget> telas = [
+    PesquisaScreen(),
+    SinonimosScreen(),
+    FrasesScreen()
+  ];
+
   @override
   Widget build(BuildContext context) {
 
@@ -39,123 +48,8 @@ class _HomeState extends State<Home> {
         backgroundColor: corPreto,
       ),
 
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              TextField(
-                keyboardType: TextInputType.text,
-                controller: _controllerPalavra,
-                enableSuggestions: true,
-                onChanged: controller.setPalavra,
-                style: estiloTexto,
-                decoration: InputDecoration(
-                  hintText: 'Pesquisar',
-                  hintStyle: estiloTexto
-                ),
-              ),
-              SizedBox(height: 30,),
-              ElevatedButton(
-                  onPressed: (){
-                    controller.pesquisar(_controllerPalavra.text);
-                  },
-                  child: Text('Pesquisar')
-              ),
-              SizedBox(height: 50,),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.85,
-                height: 150,
-                child: Observer(
-                  builder: (_){
-                    return ListView.builder(
-                      itemCount: controller.resultadoPartOfSpeech.length,
-                      itemBuilder: (_, index){
-
-                        var item = controller.resultadoPartOfSpeech[index];
-                        print('=-=-=- partOfSpeech:  ${item.toString()}');
-
-                        return Container(
-                          margin: EdgeInsets.only(bottom: 10),
-                          width: double.infinity,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(item)
-                            ],
-                          ),
-                        );
-
-                      },
-                    );
-                  },
-                ),
-              ),
-
-              SizedBox(height: 30,),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.85,
-                height: 450,
-                child: Observer(
-                  builder: (_){
-                    return ListView.builder(
-                      itemCount: controller.resultadoMeanings.length,
-                      itemBuilder: (_, index){
-
-                        var item = controller.resultadoMeanings[index];
-                        print('=-=-=- meanings:  ${item.toString()}');
-
-                        return Container(
-                          margin: EdgeInsets.only(bottom: 10),
-                          width: double.infinity,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(item.toString())
-                            ],
-                          ),
-                        );
-
-                      },
-                    );
-                  },
-                ),
-              ),
-
-              SizedBox(height: 30,),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.85,
-                height: 150,
-                child: Observer(
-                  builder: (_){
-                    return ListView.builder(
-                      itemCount: controller.resultadoEtymology.length,
-                      itemBuilder: (_, index){
-
-                        var item = controller.resultadoEtymology[index];
-                        print('=-=-=- etymology:  ${item.toString()}');
-
-                        return Container(
-                          margin: EdgeInsets.only(bottom: 10),
-                          width: double.infinity,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(item)
-                            ],
-                          ),
-                        );
-
-                      },
-                    );
-                  },
-                ),
-              ),
-
-            ],
-          ),
-        ),
+      body: Container(
+        child: telas[_page],
       ),
 
       bottomNavigationBar: CurvedNavigationBar(
@@ -178,7 +72,7 @@ class _HomeState extends State<Home> {
               labelStyle: estiloTextoBoldd
           )
         ],
-        backgroundColor: corAmarelo,
+        backgroundColor: Colors.transparent,
         buttonBackgroundColor: corVermelho,
         color: corVermelho,
         animationCurve: Curves.easeInQuad,
