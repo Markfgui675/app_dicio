@@ -11,6 +11,17 @@ abstract class ControllerBase with Store {
   @observable
   List<dynamic> Json = [];
 
+  @observable
+  List<dynamic> partOfSpeech = [].asObservable();
+
+  @observable
+  List<dynamic> meanings= [].asObservable();
+  @observable
+  List<dynamic> meanings_obs = [].asObservable();
+
+  @observable
+  List<dynamic> etymology = [].asObservable();
+
   @action
   Future<List<dynamic>> pesquisar(String value) async {
 
@@ -26,6 +37,28 @@ abstract class ControllerBase with Store {
     if(response.statusCode == 200){
       print(json.decode(response.body));
       Json = json.decode(response.body);
+
+      partOfSpeech.clear();
+      meanings_obs.clear();
+      meanings.clear();
+      etymology.clear();
+
+      for(int l = 0; l < Json.length; l++){
+        partOfSpeech.add(Json[l]['partOfSpeech']);
+        meanings_obs.add(Json[l]['meanings']);
+        etymology.add(Json[l]['etymology']);
+      }
+
+      print(partOfSpeech.toString());
+      print(meanings_obs.toString());
+      print(etymology.toString());
+
+      for(int l = 0; l < meanings_obs.length; l++){
+        meanings.add(meanings_obs[l]);
+      }
+
+      print(meanings.toString());
+
       return Json;
     } else {
       throw Exception('Erro ao carregar dados do servidor');
@@ -34,8 +67,18 @@ abstract class ControllerBase with Store {
   }
 
   @computed
-  List<dynamic> get resultado{
-    return Json;
+  List<dynamic> get resultadoPartOfSpeech{
+    return partOfSpeech;
+  }
+
+  @computed
+  List<dynamic> get resultadoMeanings{
+    return meanings;
+  }
+
+  @computed
+  List<dynamic> get resultadoEtymology{
+    return etymology;
   }
 
   @observable
