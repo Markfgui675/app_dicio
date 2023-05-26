@@ -1,7 +1,11 @@
 import 'dart:convert';
 
+import 'package:app_dicio/View/design/design.dart';
+import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
+import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../Controller/mobx.dart';
 
@@ -16,19 +20,28 @@ class _HomeState extends State<Home> {
 
   Controller controller = Controller();
   TextEditingController _controllerPalavra = TextEditingController();
+  GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
+  int _page = 0;
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
+      backgroundColor: corAmarelo,
       appBar: AppBar(
-        title: Text('App Dicio'),
+        title: TextoPadrao(
+          texto: 'Dicionário Rápido e Fácil',
+          color: corBranco,
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+        ),
         centerTitle: true,
+        backgroundColor: corPreto,
       ),
 
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -37,6 +50,11 @@ class _HomeState extends State<Home> {
                 controller: _controllerPalavra,
                 enableSuggestions: true,
                 onChanged: controller.setPalavra,
+                style: estiloTexto,
+                decoration: InputDecoration(
+                  hintText: 'Pesquisar',
+                  hintStyle: estiloTexto
+                ),
               ),
               SizedBox(height: 30,),
               ElevatedButton(
@@ -138,7 +156,40 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
-      )
+      ),
+
+      bottomNavigationBar: CurvedNavigationBar(
+        key: _bottomNavigationKey,
+        index: 0,
+        items: [
+          CurvedNavigationBarItem(
+            child: const Icon(Icons.search, color: corBranco,),
+            label: 'Pesquisar',
+            labelStyle: estiloTextoBoldd
+          ),
+          CurvedNavigationBarItem(
+              child: const Icon(Icons.text_fields, color: corBranco,),
+              label: 'Sinônimos',
+              labelStyle: estiloTextoBoldd
+          ),
+          CurvedNavigationBarItem(
+              child: const Icon(Icons.text_snippet, color: corBranco,),
+              label: 'Frases',
+              labelStyle: estiloTextoBoldd
+          )
+        ],
+        backgroundColor: corAmarelo,
+        buttonBackgroundColor: corVermelho,
+        color: corVermelho,
+        animationCurve: Curves.easeInQuad,
+        animationDuration: const Duration(milliseconds: 400),
+        onTap: (index){
+          setState(() {
+            _page = index;
+          });
+        },
+      ),
+
     );
   }
 }
