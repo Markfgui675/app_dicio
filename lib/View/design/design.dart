@@ -6,17 +6,14 @@ const Color corBranco = Color(0xfff2f1f9);
 const Color corAmarelo = Color(0xfff2d0a4);
 const Color corVermelho = Color(0xfff24236);
 
-var estiloTexto = GoogleFonts.workSans().copyWith(
-  fontWeight: FontWeight.normal,
-  fontSize: 14,
-  color: corPreto
-);
-
-var estiloTextoBoldd = GoogleFonts.workSans().copyWith(
-    fontWeight: FontWeight.bold,
-    fontSize: 14,
-    color: corPreto
-);
+TextStyle estiloTexto({required double fontSize, required FontWeight fontWeight, Color color = corPreto}){
+  var estiloTextoBoldd = GoogleFonts.workSans().copyWith(
+      fontWeight: fontWeight,
+      fontSize: fontSize,
+      color: color
+  );
+  return estiloTextoBoldd;
+}
 
 class TextoPadrao extends StatelessWidget {
   String? texto;

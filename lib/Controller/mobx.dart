@@ -1,5 +1,6 @@
 import 'dart:convert';
-
+import 'package:app_dicio/View/design/semResultado.dart';
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:http/http.dart' as http;
 part 'mobx.g.dart';
@@ -23,6 +24,9 @@ abstract class ControllerBase with Store {
   List<dynamic> etymology = [].asObservable();
 
   @action
+  Widget
+
+  @action
   Future<List<dynamic>> pesquisar(String value) async {
 
     Json.clear();
@@ -33,6 +37,10 @@ abstract class ControllerBase with Store {
     );
     var response = await http.get(url);
     print(response.statusCode);
+
+    if(response.statusCode != 200){
+      semResultado();
+    }
 
     if(response.statusCode == 200){
       print(json.decode(response.body));

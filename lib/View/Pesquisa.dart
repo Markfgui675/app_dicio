@@ -18,158 +18,67 @@ class _PesquisaScreenState extends State<PesquisaScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            TextField(
-              keyboardType: TextInputType.text,
-              controller: _controllerPalavra,
-              enableSuggestions: true,
-              onChanged: controller.setPalavra,
-              style: estiloTexto,
-              decoration: InputDecoration(
-                  hintText: 'Pesquisar',
-                  hintStyle: estiloTexto
-              ),
-            ),
-            SizedBox(height: 30,),
-            ElevatedButton(
-                onPressed: (){
-                  controller.pesquisar(_controllerPalavra.text);
-                },
-                child: Text('Pesquisar')
-            ),
-            SizedBox(height: 50,),
-            TextoPadrao(
-              texto: 'Categoria Gramatical',
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              color: corPreto,
-            ),
-            SizedBox(height: 10,),
-            Container(
-              padding: const EdgeInsets.all(12),
-              width: MediaQuery.of(context).size.width * 0.85,
-              height: 150,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: corBranco
-              ),
-              child: Observer(
-                builder: (_){
-                  return ListView.builder(
-                    itemCount: controller.resultadoPartOfSpeech.length,
-                    itemBuilder: (_, index){
+    return Container(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
 
-                      var item = controller.resultadoPartOfSpeech[index];
-                      print('=-=-=- partOfSpeech:  ${item.toString()}');
-
-                      return Container(
-                        margin: EdgeInsets.only(bottom: 10),
-                        width: double.infinity,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(item)
-                          ],
-                        ),
-                      );
-
+          //Barra de pesquisa
+          Container(
+            width: double.infinity,
+            height: 80,
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: TextField(
+                    controller: _controllerPalavra,
+                    keyboardType: TextInputType.text,
+                    onChanged: controller.setPalavra,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.only(left: 15),
+                      hintText: 'Busque por significados...',
+                      hintStyle: estiloTexto(fontSize: 14, fontWeight: FontWeight.bold, color: corPreto),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      )
+                    ),
+                  )
+                ),
+                Expanded(
+                  flex: 1,
+                  child: InkWell(
+                    onTap: (){
+                      controller.pesquisar(_controllerPalavra.text);
                     },
-                  );
-                },
-              ),
+                    child: CircleAvatar(
+                      backgroundColor: corVermelho,
+                      radius: 30,
+                      child: Icon(Icons.search, color: corPreto,),
+                    ),
+                  )
+                ),
+              ],
             ),
+          ),
 
-            SizedBox(height: 30,),
-            TextoPadrao(
-              texto: 'Significados',
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              color: corPreto,
-            ),
-            SizedBox(height: 10,),
-            Container(
-              padding: const EdgeInsets.all(12),
-              width: MediaQuery.of(context).size.width * 0.85,
-              height: 450,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: corBranco
-              ),
-              child: Observer(
+
+          SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: Observer(
                 builder: (_){
-                  return ListView.builder(
-                    itemCount: controller.resultadoMeanings.length,
-                    itemBuilder: (_, index){
 
-                      var item = controller.resultadoMeanings[index];
-                      print('=-=-=- meanings:  ${item.toString()}');
+                  if(controller.Json.length == 0){
+                    return Center(
 
-                      return Container(
-                        margin: EdgeInsets.only(bottom: 10),
-                        width: double.infinity,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(item.toString())
-                          ],
-                        ),
-                      );
+                    );
+                  }
 
-                    },
-                  );
-                },
-              ),
+                }
             ),
-
-            SizedBox(height: 30,),
-            TextoPadrao(
-              texto: 'Etimologia',
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              color: corPreto,
-            ),
-            SizedBox(height: 10,),
-            Container(
-              padding: const EdgeInsets.all(12),
-              width: MediaQuery.of(context).size.width * 0.85,
-              height: 150,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: corBranco
-              ),
-              child: Observer(
-                builder: (_){
-                  return ListView.builder(
-                    itemCount: controller.resultadoEtymology.length,
-                    itemBuilder: (_, index){
-
-                      var item = controller.resultadoEtymology[index];
-                      print('=-=-=- etymology:  ${item.toString()}');
-
-                      return Container(
-                        margin: EdgeInsets.only(bottom: 10),
-                        width: double.infinity,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(item)
-                          ],
-                        ),
-                      );
-
-                    },
-                  );
-                },
-              ),
-            ),
-
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

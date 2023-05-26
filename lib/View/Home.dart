@@ -59,24 +59,24 @@ class _HomeState extends State<Home> {
           CurvedNavigationBarItem(
             child: const Icon(Icons.search, color: corBranco,),
             label: 'Pesquisar',
-            labelStyle: estiloTextoBoldd
+            labelStyle: estiloTexto(fontSize: 14, fontWeight: FontWeight.bold, color: corBranco)
           ),
           CurvedNavigationBarItem(
               child: const Icon(Icons.text_fields, color: corBranco,),
               label: 'Sinônimos',
-              labelStyle: estiloTextoBoldd
+              labelStyle: estiloTexto(fontSize: 14, fontWeight: FontWeight.bold, color: corBranco)
           ),
           CurvedNavigationBarItem(
               child: const Icon(Icons.text_snippet, color: corBranco,),
               label: 'Frases',
-              labelStyle: estiloTextoBoldd
+              labelStyle: estiloTexto(fontSize: 14, fontWeight: FontWeight.bold, color: corBranco)
           )
         ],
         backgroundColor: Colors.transparent,
         buttonBackgroundColor: corVermelho,
         color: corVermelho,
         animationCurve: Curves.easeInQuad,
-        animationDuration: const Duration(milliseconds: 400),
+        animationDuration: const Duration(milliseconds: 200),
         onTap: (index){
           setState(() {
             _page = index;
