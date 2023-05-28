@@ -16,11 +16,19 @@ mixin _$Controller on ControllerBase, Store {
       (_$StatusCodeComputed ??= Computed<int>(() => super.StatusCode,
               name: 'ControllerBase.StatusCode'))
           .value;
-  Computed<bool>? _$loadinggComputed;
+  Computed<List<dynamic>>? _$resultadoSinonimosComputed;
 
   @override
-  bool get loadingg => (_$loadinggComputed ??=
-          Computed<bool>(() => super.loadingg, name: 'ControllerBase.loadingg'))
+  List<dynamic> get resultadoSinonimos => (_$resultadoSinonimosComputed ??=
+          Computed<List<dynamic>>(() => super.resultadoSinonimos,
+              name: 'ControllerBase.resultadoSinonimos'))
+      .value;
+  Computed<List<dynamic>>? _$resultadoFrasesComputed;
+
+  @override
+  List<dynamic> get resultadoFrases => (_$resultadoFrasesComputed ??=
+          Computed<List<dynamic>>(() => super.resultadoFrases,
+              name: 'ControllerBase.resultadoFrases'))
       .value;
   Computed<List<dynamic>>? _$resultadoPartOfSpeechComputed;
 
@@ -57,6 +65,38 @@ mixin _$Controller on ControllerBase, Store {
   set Json(List<dynamic> value) {
     _$JsonAtom.reportWrite(value, super.Json, () {
       super.Json = value;
+    });
+  }
+
+  late final _$sinonimosAtom =
+      Atom(name: 'ControllerBase.sinonimos', context: context);
+
+  @override
+  List<dynamic> get sinonimos {
+    _$sinonimosAtom.reportRead();
+    return super.sinonimos;
+  }
+
+  @override
+  set sinonimos(List<dynamic> value) {
+    _$sinonimosAtom.reportWrite(value, super.sinonimos, () {
+      super.sinonimos = value;
+    });
+  }
+
+  late final _$frasesAtom =
+      Atom(name: 'ControllerBase.frases', context: context);
+
+  @override
+  List<dynamic> get frases {
+    _$frasesAtom.reportRead();
+    return super.frases;
+  }
+
+  @override
+  set frases(List<dynamic> value) {
+    _$frasesAtom.reportWrite(value, super.frases, () {
+      super.frases = value;
     });
   }
 
@@ -140,22 +180,6 @@ mixin _$Controller on ControllerBase, Store {
     });
   }
 
-  late final _$loadingAtom =
-      Atom(name: 'ControllerBase.loading', context: context);
-
-  @override
-  bool get loading {
-    _$loadingAtom.reportRead();
-    return super.loading;
-  }
-
-  @override
-  set loading(bool value) {
-    _$loadingAtom.reportWrite(value, super.loading, () {
-      super.loading = value;
-    });
-  }
-
   late final _$palavraAtom =
       Atom(name: 'ControllerBase.palavra', context: context);
 
@@ -176,8 +200,8 @@ mixin _$Controller on ControllerBase, Store {
       AsyncAction('ControllerBase.pesquisar', context: context);
 
   @override
-  Future<List<dynamic>> pesquisar(String value) {
-    return _$pesquisarAsyncAction.run(() => super.pesquisar(value));
+  Future<List<dynamic>> pesquisar(String value, String tipo) {
+    return _$pesquisarAsyncAction.run(() => super.pesquisar(value, tipo));
   }
 
   late final _$ControllerBaseActionController =
@@ -198,15 +222,17 @@ mixin _$Controller on ControllerBase, Store {
   String toString() {
     return '''
 Json: ${Json},
+sinonimos: ${sinonimos},
+frases: ${frases},
 partOfSpeech: ${partOfSpeech},
 meanings: ${meanings},
 meanings_obs: ${meanings_obs},
 etymology: ${etymology},
 statusCode: ${statusCode},
-loading: ${loading},
 palavra: ${palavra},
 StatusCode: ${StatusCode},
-loadingg: ${loadingg},
+resultadoSinonimos: ${resultadoSinonimos},
+resultadoFrases: ${resultadoFrases},
 resultadoPartOfSpeech: ${resultadoPartOfSpeech},
 resultadoMeanings: ${resultadoMeanings},
 resultadoEtymology: ${resultadoEtymology}

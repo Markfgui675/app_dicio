@@ -17,7 +17,7 @@ class PesquisaScreen extends StatefulWidget {
 class _PesquisaScreenState extends State<PesquisaScreen> {
 
   Controller controller = Controller();
-  TextEditingController _controllerPalavra = TextEditingController();
+  final TextEditingController _controllerPalavra = TextEditingController();
 
   List<dynamic> meanings = [];
 
@@ -43,17 +43,18 @@ class _PesquisaScreenState extends State<PesquisaScreen> {
                   child: TextField(
                     controller: _controllerPalavra,
                     keyboardType: TextInputType.text,
-                    onChanged: controller.setPalavra,
                     style: estiloTexto(fontSize: 14, fontWeight: FontWeight.bold),
                     enableSuggestions: true,
                     textInputAction: TextInputAction.search,
                     onSubmitted: (palavra){
                       setState(() {
-                        _palavraPesquisada = palavra;
-                        _textoPadrao = 'Resultados para: $_palavraPesquisada';
+                        _palavraPesquisada = _controllerPalavra.text;
+                        if(_palavraPesquisada != ''){
+                          _textoPadrao = 'Resultados para: $_palavraPesquisada';
+                        }
                       });
                       if(_controllerPalavra.text != ''){
-                        controller.pesquisar(_controllerPalavra.text.toLowerCase());
+                        controller.pesquisar(_controllerPalavra.text.toLowerCase(), 'significados');
                       }
                     },
                     decoration: InputDecoration(
@@ -72,13 +73,15 @@ class _PesquisaScreenState extends State<PesquisaScreen> {
                     onTap: (){
                       setState(() {
                         _palavraPesquisada = _controllerPalavra.text;
-                        _textoPadrao = 'Resultados para: $_palavraPesquisada';
+                        if(_palavraPesquisada != ''){
+                          _textoPadrao = 'Resultados para: $_palavraPesquisada';
+                        }
                       });
                       if(_controllerPalavra.text != ''){
-                        controller.pesquisar(_controllerPalavra.text.toLowerCase());
+                        controller.pesquisar(_controllerPalavra.text.toLowerCase(), 'significados');
                       }
                     },
-                    child: CircleAvatar(
+                    child: const CircleAvatar(
                       backgroundColor: corVermelho,
                       radius: 30,
                       child: Icon(Icons.search, color: corPreto,),
@@ -89,6 +92,7 @@ class _PesquisaScreenState extends State<PesquisaScreen> {
             ),
           ),
 
+          // resposta imediata para a requisição do usuário
           Container(
             padding: const EdgeInsets.all(12),
             child: Column(
@@ -103,9 +107,11 @@ class _PesquisaScreenState extends State<PesquisaScreen> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
+
+          // resultados
           Observer(
               builder: (_){
                 if(controller.Json.isEmpty && controller.statusCode == 0){

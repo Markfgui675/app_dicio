@@ -13,6 +13,12 @@ abstract class ControllerBase with Store {
   List<dynamic> Json = [];
 
   @observable
+  List<dynamic> sinonimos = [];
+
+  @observable
+  List<dynamic> frases = [];
+
+  @observable
   List<dynamic> partOfSpeech = [].asObservable();
 
   @observable
@@ -26,26 +32,39 @@ abstract class ControllerBase with Store {
   @observable
   int statusCode = 0;
 
-  @observable
-  bool loading = false;
+
+
+
+
 
   @action
-  Future<List<dynamic>> pesquisar(String value) async {
+  Future<List<dynamic>> pesquisar(String value, String tipo) async {
 
     Json.clear();
 
-    loading = true;
-
     String palavra = value;
-    var url = Uri.parse(
-        'https://dicio-api-ten.vercel.app/v2/$palavra'
-    );
+    var url;
+
+    if(tipo == 'significados'){
+      url = Uri.parse(
+          'https://dicio-api-ten.vercel.app/v2/$palavra'
+      );
+    } else if(tipo == 'sinonimos'){
+      url = Uri.parse(
+          'https://dicio-api-ten.vercel.app/v2/sinonimos/$palavra'
+      );
+    } else if(tipo == 'frases'){
+      url = Uri.parse(
+          'https://dicio-api-ten.vercel.app/v2/frases/$palavra'
+      );
+    }
+
     var response = await http.get(url);
+
     print(response.statusCode);
 
     if(response.statusCode != 200){
       statusCode = response.statusCode;
-      loading = false;
     }
 
     if(response.statusCode == 200){
@@ -53,28 +72,37 @@ abstract class ControllerBase with Store {
       print(json.decode(response.body));
       Json = json.decode(response.body);
 
+      sinonimos.clear();
+      frases.clear();
       partOfSpeech.clear();
       meanings_obs.clear();
       meanings.clear();
       etymology.clear();
 
-      for(int l = 0; l < Json.length; l++){
-        partOfSpeech.add(Json[l]['partOfSpeech']);
-        meanings_obs.add(Json[l]['meanings']);
-        etymology.add(Json[l]['etymology']);
+      if(tipo == 'significados'){
+        for(int l = 0; l < Json.length; l++){
+          partOfSpeech.add(Json[l]['partOfSpeech']);
+          meanings_obs.add(Json[l]['meanings']);
+          etymology.add(Json[l]['etymology']);
+        }
+
+        print(partOfSpeech.toString());
+        print(meanings_obs.toString());
+        print(etymology.toString());
+
+        for(int l = 0; l < meanings_obs.length; l++){
+          meanings.add(meanings_obs[l]);
+        }
+
+        print(meanings.toString());
+      } else if(tipo == 'sinonimos'){
+        for(int l = 0; l < Json.length; l++){
+          sinonimos.add(Json[l]);
+        }
+      } else if(tipo == 'frases'){
+
       }
 
-      print(partOfSpeech.toString());
-      print(meanings_obs.toString());
-      print(etymology.toString());
-
-      for(int l = 0; l < meanings_obs.length; l++){
-        meanings.add(meanings_obs[l]);
-      }
-
-      print(meanings.toString());
-
-      loading = false;
 
       return Json;
     } else {
@@ -82,14 +110,24 @@ abstract class ControllerBase with Store {
     }
   }
 
+
+
+
+
+
   @computed
   int get StatusCode{
     return statusCode;
   }
 
   @computed
-  bool get loadingg{
-    return loading;
+  List<dynamic> get resultadoSinonimos{
+    return sinonimos;
+  }
+
+  @computed
+  List<dynamic> get resultadoFrases{
+    return frases;
   }
 
   @computed
