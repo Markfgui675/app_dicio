@@ -2,7 +2,6 @@ import 'package:app_dicio/View/design/PrimeiroSinonimo.dart';
 import 'package:app_dicio/View/design/semResultado.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-
 import '../Controller/mobx.dart';
 import 'design/design.dart';
 
