@@ -1,8 +1,9 @@
-import 'package:app_dicio/View/design/design.dart';
 import 'package:flutter/material.dart';
 
-class PrimeiroSinonimo extends StatelessWidget {
-  const PrimeiroSinonimo({Key? key}) : super(key: key);
+import 'design.dart';
+
+class PrimeiraFrase extends StatelessWidget {
+  const PrimeiraFrase({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class PrimeiroSinonimo extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           TextoPadrao(
-            texto: 'Busque por sinônimos',
+            texto: 'Busque por exemplos de frases',
             fontSize: 18,
             fontWeight: FontWeight.bold,
             color: corPreto,

@@ -14,7 +14,7 @@ class PrimeiraPesquisa extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           TextoPadrao(
-            texto: 'Faça a sua primeira pesquisa',
+            texto: 'Busque por significados',
             fontSize: 18,
             fontWeight: FontWeight.bold,
             color: corPreto,

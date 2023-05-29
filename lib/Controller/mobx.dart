@@ -100,9 +100,10 @@ abstract class ControllerBase with Store {
           sinonimos.add(Json[l]);
         }
       } else if(tipo == 'frases'){
-
+        for(int l = 0; l < Json.length; l++){
+          frases.add(Json[l]);
+        }
       }
-
 
       return Json;
     } else {

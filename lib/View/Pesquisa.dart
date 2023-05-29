@@ -219,7 +219,7 @@ class _PesquisaScreenState extends State<PesquisaScreen> {
                           ),
                           child: Center(
                             child: TextoPadrao(
-                              texto: 'Ver mais significados',
+                              texto: 'Ver mais',
                               color: corBranco,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
