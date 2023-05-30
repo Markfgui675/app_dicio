@@ -1,6 +1,7 @@
 # app_dicio
 
-Projeto de aplicativo dicionário que faz requisições em API de dicionário para buscar palavras e seus respectivos significados. Além dos significados, o aplicativo é capaz de pesquisar por sinônimos e frases. 
+Projeto de aplicativo Flutter. 
+Dicionário que faz requisições em API de dicionário para buscar palavras e seus respectivos significados. Além dos significados, o aplicativo é capaz de pesquisar por sinônimos e frases. 
 
 ## Página principal 
 ![WhatsApp Image 2023-05-30 at 15 51 40](https://github.com/Markfgui675/app_dicio/assets/85682890/ff829d43-e2c5-487f-ac26-737498f44c21)
